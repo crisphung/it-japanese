@@ -18,8 +18,6 @@ mvn spring-boot:run
 
 ## Build application
 
-The easiest way to deploy the sample application to OpenShift is to use the [OpenShift CLI](https://docs.openshift.org/latest/cli_reference/index.html):
-
 ```shell
 mvn clean package
 ```
