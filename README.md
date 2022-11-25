@@ -1,6 +1,3 @@
-# springboot-sample-app
-
-Minimal [Spring Boot](http://projects.spring.io/spring-boot/) sample app.
 
 ## Requirements
 
