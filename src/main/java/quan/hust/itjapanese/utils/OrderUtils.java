@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.PathBuilder;
-import org.apache.commons.text.WordUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import quan.hust.itjapanese.exception.InvalidSortColumnException;
 import quan.hust.itjapanese.exception.InvalidSortOrderException;
 
@@ -19,8 +19,7 @@ public final class OrderUtils
   {
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes"
-  })
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public static OrderSpecifier<String>[] createOrderBy(String entityName, String[] orderByColumns,
     final List<String> sortableColumns) throws InvalidSortOrderException, InvalidSortColumnException
   {
@@ -29,11 +28,11 @@ public final class OrderUtils
       return new OrderSpecifier[0];
     }
 
-    var entityPathBuilder = new PathBuilder<>(Entity.class, entityName);
+    PathBuilder<Entity> entityPathBuilder = new PathBuilder<>(Entity.class, entityName);
 
-    var orderSpecifiers = new ArrayList<OrderSpecifier<String>>();
+    ArrayList<OrderSpecifier<String>> orderSpecifiers = new ArrayList<OrderSpecifier<String>>();
 
-    for (var orderByColumn : orderByColumns)
+    for (String orderByColumn : orderByColumns)
     {
       String[] columnOrderPair = orderByColumn.split(":");
 
@@ -85,10 +84,9 @@ public final class OrderUtils
 
   private static String columnNameToEntityPath(String columnName)
   {
-    String capitalizedColumnName = WordUtils.capitalizeFully(columnName, '_');
+    String capitalizedColumnName = org.apache.commons.lang3.text.WordUtils.capitalizeFully(columnName, '_');
     String upperCamelCaseColumnName = capitalizedColumnName.replace("_", "");
 
     return WordUtils.uncapitalize(upperCamelCaseColumnName);
   }
-
 }
