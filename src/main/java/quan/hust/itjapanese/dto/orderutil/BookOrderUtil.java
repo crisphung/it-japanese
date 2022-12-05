@@ -1,6 +1,7 @@
 package quan.hust.itjapanese.dto.orderutil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -15,7 +16,7 @@ import quan.hust.itjapanese.utils.OrderUtils;
 
 public final class BookOrderUtil
 {
-  private static final List<String> SORTABLE_COLUMNS = List.of(Book.ColumnName.RANKING,Book.ColumnName.PRICE);
+  private static final List<String> SORTABLE_COLUMNS = Arrays.asList(Book.ColumnName.PRICE, Book.ColumnName.RANKING);
 
   private BookOrderUtil()
   {
