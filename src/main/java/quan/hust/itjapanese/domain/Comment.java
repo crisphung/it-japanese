@@ -1,13 +1,12 @@
 package quan.hust.itjapanese.domain;
 
-import java.util.Set;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -20,26 +19,21 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "usez")
-public class User
+@Table(name = "comment")
+public class Comment extends Auditable
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Integer Id;
 
-  @Column(name = "name")
-  private String name;
+  @Column(name = "content")
+  private String content;
 
-  @Column(name = "email")
-  private String email;
+  @ManyToOne
+  @JoinColumn(name = "book_id",nullable = false)
+  private Book book;
 
-  @Column(name = "username")
-  private String username;
 
-  @Column(name = "password")
-  private String password;
 
-  @ManyToMany(mappedBy = "likes")
-  private Set<Book> liked;
 
 }
