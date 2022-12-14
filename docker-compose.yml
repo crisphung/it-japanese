@@ -17,7 +17,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=crquan07
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     volumes:
-      - images-vol:/app/uploads:rwc
+      - images-vol:/app/uploads:rw
   db:
     image: postgres
     ports:

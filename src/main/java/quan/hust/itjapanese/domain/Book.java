@@ -62,7 +62,7 @@ public class Book
   @Column(name="category")
   private String category;
 
-  @Column(name="image-url")
+  @Column(name="image_url")
   private String imageUrl;
 
   @ManyToMany

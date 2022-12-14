@@ -39,7 +39,7 @@ public class User
   @Column(name = "password")
   private String password;
 
-  @Column(name="profile-image")
+  @Column(name="profile_image")
   private String profileImage;
 
   @ManyToMany(mappedBy = "likes")

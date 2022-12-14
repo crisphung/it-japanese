@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import quan.hust.itjapanese.domain.User;
 import quan.hust.itjapanese.security.CustomUserDetails;
 
 public final class SecurityUtils
@@ -44,6 +46,30 @@ public final class SecurityUtils
       return Optional.empty();
     }
   }
+  public static Optional<User> getCurrentUser()
+  {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
+    if (authentication == null || authentication.getPrincipal() == null)
+    {
+      return Optional.empty();
+    }
+
+    // Resolve username depend on type of principal.
+    Object principal = authentication.getPrincipal();
+    if (principal instanceof String)
+    {
+      return Optional.empty();
+    }
+    else if (principal instanceof CustomUserDetails)
+    {
+      CustomUserDetails userDetails = (CustomUserDetails)principal;
+      return Optional.of(userDetails.getUserInfo());
+    }
+    else
+    {
+      return Optional.empty();
+    }
+  }
 
 }
