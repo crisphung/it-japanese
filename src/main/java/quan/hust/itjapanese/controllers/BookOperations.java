@@ -2,7 +2,6 @@ package quan.hust.itjapanese.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import quan.hust.itjapanese.dto.response.GetCommentResponse;
 import quan.hust.itjapanese.dto.request.AddBookRequest;
 import quan.hust.itjapanese.dto.response.AddBookResponse;
+import quan.hust.itjapanese.dto.response.CompareBookResponse;
 import quan.hust.itjapanese.dto.response.GetBookResponse;
 
 @RequestMapping(BookOperations.RESOURCE_API)
@@ -22,7 +21,7 @@ public interface BookOperations
 
    String IMPORT_BOOKS ="/import";
 
-
+  String COMPARE_BOOKS ="/compare";
 
 
    @PostMapping
@@ -45,11 +44,22 @@ public interface BookOperations
 
      @RequestParam(name="category",required = false) String category,
 
-     @RequestParam(name = "orderBy",required = false) String[] orderBy
+     @RequestParam(name = "orderBy",required = false) String[] orderBy,
+
+     @RequestParam(name="size",required = false) Integer size,
+
+     @RequestParam(name="page",required = false) Integer page
    );
 
+  @Operation(summary = "Compare books by bookId")
+  @GetMapping(COMPARE_BOOKS)
+  ResponseEntity<CompareBookResponse> importBooks(
+    @Parameter(description = "First book's id")
+    @RequestParam(name = "book1") Integer id1,
 
-
+    @Parameter(description = "Second book's id")
+    @RequestParam(name = "book2") Integer id2
+  );
   @Operation(summary = "Import books from .csv file. Return HTTP status 400 if the data is invalid")
   @PostMapping(IMPORT_BOOKS)
   ResponseEntity<Void> importBooks(

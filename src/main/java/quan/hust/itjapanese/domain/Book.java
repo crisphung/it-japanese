@@ -62,6 +62,9 @@ public class Book
   @Column(name="category")
   private String category;
 
+  @Column(name="image-url")
+  private String imageUrl;
+
   @ManyToMany
   @JoinTable(
     name = "favorite_book",

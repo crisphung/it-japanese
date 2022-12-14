@@ -8,7 +8,7 @@ import quan.hust.itjapanese.dto.filter.BookFilter;
 
 public interface BookRepositoryCustom
 {
-  List<Book> getBooksByFilter(BookFilter filter, OrderSpecifier<String>[] orderSpecifier);
+  List<Book> getBooksByFilter(BookFilter filter, OrderSpecifier<String>[] orderSpecifier, Integer size, Integer page);
 
   long count(BookFilter filter);
 }

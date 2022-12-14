@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentRequest
 {
+  @JsonProperty("comment-id")
+  private Integer commentId;
+
   @JsonProperty("book-id")
   private Integer bookId;
 

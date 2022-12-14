@@ -38,4 +38,10 @@ public class GetBookRequest
 
   @JsonProperty("orderBy")
   private String[] orderBy;
+
+  @JsonProperty("size")
+  private Integer size;
+
+  @JsonProperty("page")
+  private Integer page;
 }

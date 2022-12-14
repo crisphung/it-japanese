@@ -72,18 +72,24 @@ public class CSVHelper
   {
     String[] values = line.split(BOOK_CONTENT_DELIMITER);
 
-    Double price = null;
-    Integer ranking = null;
-    if (values.length > 3)
-    {
-      price = Double.parseDouble(values[3]);
-      ranking = Integer.parseInt(values[4]);
-    }
 
     // if password is configured
     String name = values[0];
     String author = values[1];
     String category = values[2];
+
+    Double price = null;
+    Integer ranking = null;
+    if (values.length >= 3)
+    {
+      price = Double.parseDouble(values[3]);
+    }
+
+    if(values.length>=4)
+    {
+      ranking = Integer.parseInt(values[4]);
+    }
+
 
     return Book.builder()
       .name(name)

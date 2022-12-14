@@ -5,8 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import quan.hust.itjapanese.dto.request.CommentRequest;
-import quan.hust.itjapanese.dto.response.AddCommentResponse;
 import quan.hust.itjapanese.dto.response.GetCommentResponse;
+import quan.hust.itjapanese.dto.response.ManipulateCommentResponse;
 import quan.hust.itjapanese.services.CommentService;
 
 @RestController
@@ -17,9 +17,37 @@ public class CommentController implements CommentOperations
   private CommentService commentService;
 
   @Override
-  public AddCommentResponse comment(CommentRequest request)
+  public ManipulateCommentResponse comment(CommentRequest request)
   {
-    return  commentService.comment(request);
+
+    return commentService.comment(request);
+  }
+
+  @Override
+  public ManipulateCommentResponse deleteComment(CommentRequest request)
+  {
+    ManipulateCommentResponse response;
+    Integer commentId = request.getCommentId();
+    if (commentId == null)
+    {
+      return ManipulateCommentResponse.builder().error("Delete failed!").build();
+    }
+
+    return commentService.deleteComment(commentId);
+
+  }
+
+  @Override
+  public ManipulateCommentResponse updateComment(CommentRequest request)
+  {
+    ManipulateCommentResponse response;
+    Integer commentId = request.getCommentId();
+    if (commentId == null)
+    {
+      return ManipulateCommentResponse.builder().error("Update failed!").build();
+    }
+    commentService.updateComment(request);
+    return ManipulateCommentResponse.builder().error("Updated successful!").build();
   }
 
   @Override

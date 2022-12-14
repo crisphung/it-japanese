@@ -11,8 +11,10 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.jpa.impl.JPAQuery;
 import quan.hust.itjapanese.domain.Book;
+import quan.hust.itjapanese.domain.QAuditable;
 import quan.hust.itjapanese.domain.QBook;
 import quan.hust.itjapanese.dto.filter.BookFilter;
+import quan.hust.itjapanese.utils.DataFilterUtils;
 
 public class BookRepositoryCustomImpl implements BookRepositoryCustom
 {
@@ -20,8 +22,13 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom
   private EntityManager em;
 
   @Override
-  public List<Book> getBooksByFilter(BookFilter filter, OrderSpecifier<String>[] orderSpecifiers)
+  public List<Book> getBooksByFilter(BookFilter filter, OrderSpecifier<String>[] orderSpecifiers, Integer size,
+    Integer page)
   {
+
+    size = DataFilterUtils.resolveSize(size);
+    page = DataFilterUtils.resolvePage(page);
+
     JPAQuery<?> query = new JPAQuery<>(em);
 
     QBook qBook = QBook.book;
@@ -32,6 +39,8 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom
       .from(qBook)
       .where(whereClause)
       .orderBy(orderSpecifiers)
+      .limit(size)
+      .offset((long)page*size)
       .fetch();
   }
 

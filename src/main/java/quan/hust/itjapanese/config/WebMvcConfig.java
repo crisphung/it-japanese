@@ -16,5 +16,11 @@ public class WebMvcConfig implements WebMvcConfigurer
 
     registry.addResourceHandler("/webjars/**")
       .addResourceLocations("classpath:/META-INF/resources/webjars/");
+
+    registry
+      .addResourceHandler("/uploads/**")
+      //for Unix: file:/opt/files
+      //TODO: use path here
+      .addResourceLocations("file:///./uploads/");
   }
 }
