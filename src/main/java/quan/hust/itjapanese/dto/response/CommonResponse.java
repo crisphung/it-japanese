@@ -5,17 +5,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import quan.hust.itjapanese.dto.BookDto;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CompareBookResponse
+public class CommonResponse
 {
-  @JsonProperty("book_1")
-  private BookDto firstBook;
+  @JsonProperty("error")
+  private String error;
 
-  @JsonProperty("book_2")
-  private BookDto secondBook;
+  @JsonProperty("message")
+  private String message;
 }

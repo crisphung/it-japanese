@@ -23,15 +23,27 @@ public class BookDto
   @JsonProperty("price")
   private Double price;
 
+  @JsonProperty("description")
+  private String description;
+
   @JsonProperty("level")
   private String level;
 
-  @JsonProperty("ranking")
-  private Integer ranking;
+  @JsonProperty("star")
+  private Integer star;
+
+  @JsonProperty("rate_times")
+  private Integer rateTimes;
 
   @JsonProperty("category")
   private String category;
 
+  @JsonProperty("time_to_learn")
+  private int timeLearn;
+
   @JsonProperty("author")
   private String author;
+
+  @JsonProperty("image_url")
+  private String imageUrl;
 }

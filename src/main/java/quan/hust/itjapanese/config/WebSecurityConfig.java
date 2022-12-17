@@ -3,6 +3,7 @@ package quan.hust.itjapanese.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -61,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         "/swagger-resources/configuration/ui",
         "/swagger-ui.html").permitAll()
       .antMatchers("/api/user/login", "/api/user/signup","/swagger-ui/**").permitAll()
+      .antMatchers(HttpMethod.GET,"/api/book","/api/book/compare").permitAll()
+      .antMatchers(HttpMethod.GET,"/api/comment").permitAll()
       .anyRequest().authenticated()
       .and()
       .logout()

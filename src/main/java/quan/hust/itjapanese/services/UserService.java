@@ -7,6 +7,8 @@ import quan.hust.itjapanese.dto.UserDto;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
+import quan.hust.itjapanese.dto.response.FavoriteResponse;
+import quan.hust.itjapanese.dto.response.ProfileResponse;
 
 public interface UserService extends UserDetailsService
 {
@@ -16,6 +18,8 @@ public interface UserService extends UserDetailsService
 
   UserDto updateInfo(MultipartFile imageFile);
 
+  FavoriteResponse addToFavorite(Integer bookId);
 
+  ProfileResponse getProfile();
 
 }

@@ -17,7 +17,7 @@ import quan.hust.itjapanese.domain.Book;
 public class CSVHelper
 {
   public static String TYPE = "text/csv";
-  static String[] HEADERs = { "Title", "Author", "Category", "Price", "Ranking" };
+  static String[] HEADERs = { "Title", "Author", "Category", "Price", "Rating" };
 
   public static final String BOOK_CONTENT_DELIMITER = ",";
 
@@ -76,19 +76,12 @@ public class CSVHelper
     // if password is configured
     String name = values[0];
     String author = values[1];
-    String category = values[2];
-
-    Double price = null;
-    Integer ranking = null;
-    if (values.length >= 3)
-    {
-      price = Double.parseDouble(values[3]);
-    }
-
-    if(values.length>=4)
-    {
-      ranking = Integer.parseInt(values[4]);
-    }
+    String description = values[2];
+    String category = values[3];
+    Double price = Double.parseDouble(values[4]);
+    String level = values[5];
+    Integer studyTime = Integer.parseInt(values[6]);
+    String imageUrl = values[7];
 
 
     return Book.builder()
@@ -96,7 +89,10 @@ public class CSVHelper
       .author(author)
       .category(category)
       .price(price)
-      .ranking(ranking)
+      .description(description)
+      .timeLearn(studyTime)
+      .level(level)
+      .imageUrl(imageUrl)
       .build();
   }
 

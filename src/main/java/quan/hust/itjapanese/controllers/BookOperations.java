@@ -3,6 +3,7 @@ package quan.hust.itjapanese.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,7 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import quan.hust.itjapanese.dto.request.AddBookRequest;
+import quan.hust.itjapanese.dto.request.RatingRequest;
 import quan.hust.itjapanese.dto.response.AddBookResponse;
+import quan.hust.itjapanese.dto.response.CommonResponse;
 import quan.hust.itjapanese.dto.response.CompareBookResponse;
 import quan.hust.itjapanese.dto.response.GetBookResponse;
 
@@ -22,6 +25,8 @@ public interface BookOperations
    String IMPORT_BOOKS ="/import";
 
   String COMPARE_BOOKS ="/compare";
+
+  String RATING = "/rating";
 
 
    @PostMapping
@@ -53,7 +58,7 @@ public interface BookOperations
 
   @Operation(summary = "Compare books by bookId")
   @GetMapping(COMPARE_BOOKS)
-  ResponseEntity<CompareBookResponse> importBooks(
+  ResponseEntity<CompareBookResponse> compare(
     @Parameter(description = "First book's id")
     @RequestParam(name = "book1") Integer id1,
 
@@ -65,4 +70,8 @@ public interface BookOperations
   ResponseEntity<Void> importBooks(
     @Parameter(description = "The csv file") @RequestParam("file") MultipartFile multipartFile
   );
+
+  @Operation(summary = "Evaluate star for book")
+  @PostMapping(RATING)
+  ResponseEntity<CommonResponse> rating(@RequestBody RatingRequest request);
 }

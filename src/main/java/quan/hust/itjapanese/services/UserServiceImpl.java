@@ -2,9 +2,9 @@ package quan.hust.itjapanese.services;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
-
-import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,12 +21,21 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import quan.hust.itjapanese.config.jwt.JwtTokenProvider;
+import quan.hust.itjapanese.converter.BookConverter;
 import quan.hust.itjapanese.converter.UserConverter;
+import quan.hust.itjapanese.domain.Book;
+import quan.hust.itjapanese.domain.FavoriteBook;
+import quan.hust.itjapanese.domain.UserBookID;
 import quan.hust.itjapanese.domain.User;
+import quan.hust.itjapanese.dto.BookDto;
 import quan.hust.itjapanese.dto.UserDto;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
+import quan.hust.itjapanese.dto.response.FavoriteResponse;
+import quan.hust.itjapanese.dto.response.ProfileResponse;
+import quan.hust.itjapanese.repositories.BookRepository;
+import quan.hust.itjapanese.repositories.FavoriteBookRepository;
 import quan.hust.itjapanese.repositories.UserRepository;
 import quan.hust.itjapanese.security.CustomUserDetails;
 import quan.hust.itjapanese.utils.FileUploadUtils;
@@ -54,7 +63,16 @@ public class UserServiceImpl implements UserService
   private PasswordEncoder passwordEncoder;
 
   @Autowired
-  private UserConverter converter;
+  private UserConverter userConverter;
+
+  @Autowired
+  private BookConverter bookConverter;
+
+  @Autowired
+  private BookRepository bookRepository;
+
+  @Autowired
+  private FavoriteBookRepository fbRepository;
 
   @Override
   public AuthResponse login(LoginRequest request)
@@ -88,7 +106,6 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
-  @Transactional
   public AuthResponse signup(SignUpRequest request)
   {
     AuthResponse response = null;
@@ -134,7 +151,7 @@ public class UserServiceImpl implements UserService
         user.setProfileImage(imagePath);
         user = userRepository.save(user);
 
-        userDto = converter.convertToDto(user);
+        userDto = userConverter.convertToDto(user);
       }
     }
     catch (IOException e)
@@ -142,6 +159,74 @@ public class UserServiceImpl implements UserService
       throw new RuntimeException(e);
     }
     return userDto;
+  }
+
+  @Override
+  public FavoriteResponse addToFavorite(Integer bookId)
+  {
+    Optional<User> userOpt = SecurityUtils.getCurrentUser();
+    Optional<Book> bookOpt = bookRepository.findById(bookId);
+
+    if(!userOpt.isPresent())
+    {
+      return FavoriteResponse.builder()
+        .message("User not available!")
+        .build();
+    }
+
+    if(!bookOpt.isPresent())
+    {
+      return FavoriteResponse.builder()
+        .message("Book not found!")
+        .build();
+    }
+    User user = userOpt.get();
+    Book book = bookOpt.get();
+
+    UserBookID fbID = UserBookID.builder()
+      .userId(user.getId())
+      .bookId(bookId)
+      .build();
+
+    FavoriteBook fb = FavoriteBook.builder()
+      .id(fbID).build();
+
+    fb =fbRepository.save(fb);
+
+    return FavoriteResponse.builder()
+    .message("Successfully add to favorite! ")
+    .build();
+  }
+
+  @Override
+  public ProfileResponse getProfile()
+  {
+    ProfileResponse response = null;
+    Optional<User> userOpt = SecurityUtils.getCurrentUser();
+    if(userOpt.isPresent())
+    {
+      User user = userOpt.get();
+      UserDto userDto = userConverter.convertToDto(user);
+      List<FavoriteBook> favoriteBooks = fbRepository.findFavoriteBookByCreatedBy(user.getUsername());
+
+      List<Integer> bookIds = favoriteBooks.stream()
+                                          .map(fb -> fb.getId().getBookId())
+                                          .collect(Collectors.toList());
+      List<Book> books = bookRepository.findAllById(bookIds);
+      List<BookDto> bookDtos = bookConverter.convertToDtoList(books);
+
+      response = ProfileResponse.builder()
+        .favoriteBook(bookDtos)
+        .userInfo(userDto)
+        .message("Get user info!")
+        .build();
+    }else
+    {
+      response = ProfileResponse.builder()
+        .message("Get profile failed!")
+        .build();
+    }
+    return response;
   }
 
   private boolean checkUserExisted(String username) {

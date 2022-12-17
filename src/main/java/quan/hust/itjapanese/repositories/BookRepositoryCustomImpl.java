@@ -76,6 +76,12 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom
       booleanBuilder.and(qBook.author.equalsIgnoreCase(filter.getAuthor()));
     }
 
+    String category = filter.getCategory();
+    if(StringUtils.hasText(category))
+    {
+      booleanBuilder.and(qBook.category.equalsIgnoreCase(category));
+    }
+
     String level = filter.getLevel();
     if(StringUtils.hasText(level))
     {

@@ -16,7 +16,7 @@ import quan.hust.itjapanese.utils.OrderUtils;
 
 public final class BookOrderUtil
 {
-  private static final List<String> SORTABLE_COLUMNS = Arrays.asList(Book.ColumnName.PRICE, Book.ColumnName.RANKING);
+  private static final List<String> SORTABLE_COLUMNS = Arrays.asList(Book.ColumnName.PRICE, Book.ColumnName.STAR);
 
   private BookOrderUtil()
   {

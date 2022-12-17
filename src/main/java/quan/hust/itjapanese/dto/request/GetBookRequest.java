@@ -27,8 +27,8 @@ public class GetBookRequest
   @JsonProperty("level")
   private String level;
 
-  @JsonProperty("ranking")
-  private Integer ranking;
+  @JsonProperty("star")
+  private Integer star;
 
   @JsonProperty("category")
   private String category;

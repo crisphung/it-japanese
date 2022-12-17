@@ -1,21 +1,22 @@
-package quan.hust.itjapanese.dto.response;
+package quan.hust.itjapanese.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import quan.hust.itjapanese.dto.BookDto;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CompareBookResponse
+@Data
+public class RatingRequest
 {
-  @JsonProperty("book_1")
-  private BookDto firstBook;
+  @JsonProperty("book-id")
+  private Integer bookId;
 
-  @JsonProperty("book_2")
-  private BookDto secondBook;
+  @JsonProperty("star")
+  private Integer star;
 }

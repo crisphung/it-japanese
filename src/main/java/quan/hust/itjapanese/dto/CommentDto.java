@@ -22,10 +22,10 @@ public class CommentDto
   @JsonProperty("content")
   private String content;
 
-  @JsonProperty("created-at")
+  @JsonProperty("created_at")
   private Timestamp createdAt;
 
-  @JsonProperty("created-by")
+  @JsonProperty("created_by")
   private String createdBy;
 
 }

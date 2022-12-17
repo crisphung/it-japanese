@@ -12,13 +12,17 @@ public class BookConverter implements EntityConverter<Book, BookDto>
   public BookDto convertToDto(Book entity)
   {
     return BookDto.builder()
-      .ranking(entity.getRanking())
+      .star(entity.getStar())
+      .rateTimes(entity.getRateTimes())
       .category(entity.getCategory())
       .price(entity.getPrice())
       .id(entity.getId())
       .name(entity.getName())
       .level(entity.getLevel())
       .author(entity.getAuthor())
+      .timeLearn(entity.getTimeLearn())
+      .description(entity.getDescription())
+      .imageUrl(entity.getImageUrl())
       .build();
   }
 }

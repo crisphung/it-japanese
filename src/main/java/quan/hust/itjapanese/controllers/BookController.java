@@ -7,7 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import quan.hust.itjapanese.dto.request.AddBookRequest;
 import quan.hust.itjapanese.dto.request.GetBookRequest;
+import quan.hust.itjapanese.dto.request.RatingRequest;
 import quan.hust.itjapanese.dto.response.AddBookResponse;
+import quan.hust.itjapanese.dto.response.CommonResponse;
 import quan.hust.itjapanese.dto.response.CompareBookResponse;
 import quan.hust.itjapanese.dto.response.GetBookResponse;
 import quan.hust.itjapanese.services.BookService;
@@ -31,7 +33,7 @@ public class BookController implements BookOperations
     Double minPrice,
     Double maxPrice,
     String level,
-    Integer ranking,
+    Integer star,
     String category,
     String[] orderBy,
     Integer size,
@@ -45,7 +47,7 @@ public class BookController implements BookOperations
       .maxPrice(maxPrice)
       .category(category)
       .level(level)
-      .ranking(ranking)
+      .star(star)
       .orderBy(orderBy)
       .size(size)
       .page(page)
@@ -55,7 +57,7 @@ public class BookController implements BookOperations
   }
 
   @Override
-  public ResponseEntity<CompareBookResponse> importBooks(Integer id1, Integer id2)
+  public ResponseEntity<CompareBookResponse> compare(Integer id1, Integer id2)
   {
     CompareBookResponse response = bookService.compare(id1,id2);
     return ResponseEntity.ok(response);
@@ -66,5 +68,11 @@ public class BookController implements BookOperations
   {
     bookService.importFromFile(multipartFile);
     return ResponseEntity.ok().build();
+  }
+
+  @Override
+  public ResponseEntity<CommonResponse> rating(RatingRequest request)
+  {
+    return ResponseEntity.ok(bookService.rating(request));
   }
 }
