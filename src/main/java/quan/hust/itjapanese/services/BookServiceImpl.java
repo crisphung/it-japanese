@@ -195,4 +195,24 @@ public class BookServiceImpl implements BookService
       .build();
   }
 
+  @Override
+  public Boolean isRated(Integer bookId)
+  {
+    Optional<User> userOpt = SecurityUtils.getCurrentUser();
+    if (userOpt.isPresent())
+    {
+      User user = userOpt.get();
+      UserBookID ubId = UserBookID.builder()
+        .userId(user.getId())
+        .bookId(bookId)
+        .build();
+
+
+      Optional<BookRating> bookRating = brRepository.findById(ubId);
+
+      return bookRating.isPresent();
+    }
+    return false;
+  }
+
 }

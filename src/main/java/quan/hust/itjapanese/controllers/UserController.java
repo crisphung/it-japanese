@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import quan.hust.itjapanese.dto.UserDto;
+import quan.hust.itjapanese.dto.request.AddFavoriteRequest;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
@@ -67,9 +68,9 @@ public class UserController implements UserOperations
   }
 
   @Override
-  public ResponseEntity<FavoriteResponse> addToFavorite(Integer bookId)
+  public ResponseEntity<FavoriteResponse> addToFavorite(AddFavoriteRequest request)
   {
-    return ResponseEntity.ok(userService.addToFavorite(bookId));
+    return ResponseEntity.ok(userService.addToFavorite(request.getBookId()));
   }
 
   @Override

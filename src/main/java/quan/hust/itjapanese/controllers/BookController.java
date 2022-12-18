@@ -75,4 +75,10 @@ public class BookController implements BookOperations
   {
     return ResponseEntity.ok(bookService.rating(request));
   }
+
+  @Override
+  public ResponseEntity<Boolean> isRated(Integer bookId)
+  {
+    return ResponseEntity.ok(bookService.isRated(bookId));
+  }
 }

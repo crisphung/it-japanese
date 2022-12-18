@@ -22,5 +22,7 @@ public interface BookService
 
   CommonResponse rating(RatingRequest request);
 
+  Boolean isRated(Integer bookId);
+
 
 }

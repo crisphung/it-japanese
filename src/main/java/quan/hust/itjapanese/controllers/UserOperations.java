@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import quan.hust.itjapanese.dto.UserDto;
+import quan.hust.itjapanese.dto.request.AddFavoriteRequest;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
@@ -44,8 +45,8 @@ public interface UserOperations
   @GetMapping(value = "/update-profile",produces = MediaType.IMAGE_PNG_VALUE)
   void updateProfile(@RequestParam(name = "imagePath",required = false) String imagePath, HttpServletResponse response);
 
-  @GetMapping(FAVORITE_BOOK)
-  ResponseEntity<FavoriteResponse> addToFavorite(@RequestParam(name = "bookId") Integer bookId);
+  @PostMapping(FAVORITE_BOOK)
+  ResponseEntity<FavoriteResponse> addToFavorite(@RequestBody AddFavoriteRequest request);
 
   @GetMapping(value = "/profile")
   ResponseEntity<ProfileResponse> getProfile();

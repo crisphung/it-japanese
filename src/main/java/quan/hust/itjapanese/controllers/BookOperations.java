@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import org.apache.commons.collections4.Get;
 import quan.hust.itjapanese.dto.request.AddBookRequest;
 import quan.hust.itjapanese.dto.request.RatingRequest;
 import quan.hust.itjapanese.dto.response.AddBookResponse;
@@ -28,6 +29,7 @@ public interface BookOperations
 
   String RATING = "/rating";
 
+  String IS_RATED = "/is-rated";
 
    @PostMapping
    ResponseEntity<AddBookResponse> addBook(AddBookRequest request);
@@ -74,4 +76,8 @@ public interface BookOperations
   @Operation(summary = "Evaluate star for book")
   @PostMapping(RATING)
   ResponseEntity<CommonResponse> rating(@RequestBody RatingRequest request);
+
+  @Operation(summary = "Check whether user rated this book")
+  @GetMapping(IS_RATED)
+  ResponseEntity<Boolean> isRated(@RequestParam(name = "bookId") Integer bookId);
 }
