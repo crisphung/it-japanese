@@ -18,5 +18,9 @@ import quan.hust.itjapanese.dto.CommentDto;
 public class GetCommentResponse
 {
   @JsonProperty("comments")
-  List<CommentDto> comments;
+  private List<CommentDto> comments;
+
+  @JsonProperty("message")
+  private String message;
+
 }

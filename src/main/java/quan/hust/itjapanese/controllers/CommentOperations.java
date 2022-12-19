@@ -3,6 +3,7 @@ package quan.hust.itjapanese.controllers;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,8 +25,8 @@ public interface CommentOperations
   ManipulateCommentResponse comment(@RequestBody  CommentRequest request);
 
   @Operation(summary = "Delete comment functions")
-  @DeleteMapping
-  ManipulateCommentResponse deleteComment(@RequestBody CommentRequest request);
+  @DeleteMapping("/{id}")
+  ManipulateCommentResponse deleteComment(@PathVariable("id") Integer id);
 
   @Operation(summary = "Update comment")
   @PutMapping

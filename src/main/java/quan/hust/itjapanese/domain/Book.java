@@ -3,6 +3,7 @@ package quan.hust.itjapanese.domain;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -83,5 +84,8 @@ public class Book
 
   @Column(name = "rate_times")
   private int rateTimes;
+
+  @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Comment> comments;
 
 }

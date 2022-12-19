@@ -53,8 +53,17 @@ public class CommentServiceImpl implements CommentService
 
   public GetCommentResponse getComments(Integer bookId)
   {
-    Book book = bookRepository.findById(bookId).get();
-    List<Comment> comments = commentRepository.findCommentByBook(book);
+    GetCommentResponse response;
+    Book book = bookRepository.findById(bookId).orElse(null);
+
+    if(book == null)
+    {
+      return GetCommentResponse.builder()
+        .message("No book found!")
+        .build();
+    }
+
+    List<Comment> comments = commentRepository.findCommentByBookOrderByCreatedAtDesc(book);
 
     List<CommentDto> commentDtos = commentConverter.convertToDtoList(comments);
 

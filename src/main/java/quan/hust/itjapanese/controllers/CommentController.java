@@ -24,16 +24,15 @@ public class CommentController implements CommentOperations
   }
 
   @Override
-  public ManipulateCommentResponse deleteComment(CommentRequest request)
+  public ManipulateCommentResponse deleteComment(Integer id)
   {
     ManipulateCommentResponse response;
-    Integer commentId = request.getCommentId();
-    if (commentId == null)
+    if (id == null)
     {
       return ManipulateCommentResponse.builder().error("Delete failed!").build();
     }
 
-    return commentService.deleteComment(commentId);
+    return commentService.deleteComment(id);
 
   }
 
