@@ -56,7 +56,7 @@ public class CommentServiceImpl implements CommentService
     GetCommentResponse response;
     Book book = bookRepository.findById(bookId).orElse(null);
 
-    if(book == null)
+    if (book == null)
     {
       return GetCommentResponse.builder()
         .message("No book found!")
@@ -73,26 +73,27 @@ public class CommentServiceImpl implements CommentService
   @Override
   public ManipulateCommentResponse deleteComment(Integer commentId)
   {
-    Comment comment =commentRepository.findById(commentId).orElse(null);
-    if(comment == null)
+    Comment comment = commentRepository.findById(commentId).orElse(null);
+    if (comment == null)
     {
       return ManipulateCommentResponse.builder().error("Delete Failed!").build();
     }
-    bookRepository.deleteById(commentId);
-    return ManipulateCommentResponse.builder().error("Deleted successful!").build();
+
+    commentRepository.deleteById(commentId);
+    return ManipulateCommentResponse.builder().message("Deleted successful!").build();
   }
 
   @Override
   public ManipulateCommentResponse updateComment(CommentRequest request)
   {
-    Comment comment =commentRepository.findById(request.getCommentId()).orElse(null);
-    if(comment == null)
+    Comment comment = commentRepository.findById(request.getCommentId()).orElse(null);
+    if (comment == null)
     {
       return ManipulateCommentResponse.builder().error("Update Failed!").build();
     }
     comment.setContent(request.getContent());
     commentRepository.save(comment);
 
-    return ManipulateCommentResponse.builder().error("Deleted successful!").build();
+    return ManipulateCommentResponse.builder().message("Updated successful!").build();
   }
 }
