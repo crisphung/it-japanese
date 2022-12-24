@@ -10,7 +10,7 @@ default:
     - docker
   
 variables:
-  SPRING_PROFILES_ACTIVE: gitlab-ci
+  SPRING_PROFILES_ACTIVE: dev
   IMAGE_NAME: crisphung/itss-be
   MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
   IMAGE_TAG: v1
