@@ -46,6 +46,7 @@ docker-job:
     - docker:20.10.22-dind
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
+    DOCKER_HOST: tcp://localhost:2375
 
   script:
     - docker build -t $IMAGE_NAME:$IMAGE_TAG .
