@@ -7,7 +7,7 @@ workflow:
 
 default:
   tags:
-    - build
+    - docker
   
 variables:
   SPRING_PROFILES_ACTIVE: gitlab-ci
