@@ -37,7 +37,8 @@ maven-build:
       - target/*.jar
     expire_in: 1 day
 
-docker-push:
+docker-job:
+  stage: docker
   image: docker:20.10.22
   services:
     - docker:20.10.22-dind
