@@ -2,9 +2,11 @@ image: docker:latest
 services:
   - docker:dind
 
+
 variables:
   DOCKER_DRIVER: overlay
   SPRING_PROFILES_ACTIVE: gitlab-ci
+  IMAGE_NAME: crisphung/itss-be
 
 stages:
     - build
@@ -12,12 +14,14 @@ stages:
     - deploy
 
 maven-build:
-  image: maven:alpine
   stage: build
-  script: "mvn package"
-  artifacts:
-    paths:
-      - target/*.jar
+  before_script:
+    - docker login -u $DOCKER_USER -p DOCKER_PASSWORD
+  script: 
+    - docker build -t $IMAGE_NAME .
+    - docker push $IMAGE_NAME
+  
+
 
 
 
