@@ -39,7 +39,9 @@ maven-build:
 
 docker-job:
   stage: docker
+
   image: docker:20.10.22
+  
   services:
     - docker:20.10.22-dind
   variables:
