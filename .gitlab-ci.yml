@@ -60,7 +60,7 @@ deploy-job:
   stage: deploy
 
   before_script:
-    - chmod ugo+r $SSH_KEY
+    - chmod -R ugo+r $SSH_KEY
     - apk update && apk add openssh-client
   script:
     - echo "Deploying..."
