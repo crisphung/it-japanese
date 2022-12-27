@@ -24,6 +24,7 @@ stages:
     - build
     - docker
     - deploy
+    - test deploy
 
 maven-build:
   image: maven:alpine
@@ -64,14 +65,22 @@ deploy-job:
     - apk update && apk add openssh-client
   script:
     - echo "Deploying..."
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "sudo systemctl start docker.service"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker login -u $DOCKER_USER -p $DOCKER_PASSWORD"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker pull $IMAGE_NAME:$IMAGE_TAG"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker container rm -f $CONTAINER_NAME || true"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker run -dp 80:8080 --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "export IMAGE_TAG=$IMAGE_TAG"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@$EC_IP "docker compose up -d"
+    - sleep 10
     - echo "Deployed!"
 
-
-  
+test deploy:
+  image: alpine
+  stage: test deploy
+  before_script:
+    - apk add curl
+  script:
+    - curl http://$EC_IP/api/healthcheck | grep -q "check"
 
 
 
