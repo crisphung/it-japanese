@@ -62,6 +62,7 @@ deploy-job:
 
   before_script:
     - apk add openssh
+    - apk add openrc
     - rc-update add sshd
     - service sshd start
     - docker -v
