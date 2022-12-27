@@ -57,15 +57,10 @@ docker-job:
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy-job:
-  image: alpine
   stage: deploy
 
   before_script:
-    - apk update
-    - apk add --no-cache openrc openssh
-    - rc-update add sshd
-    - service sshd start
-    - docker -v
+    - chmod 400 $SSH_KEY
   script:
     - echo "Deploying..."
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker login -u $DOCKER_USER -p DOCKER_PASSWORD"
