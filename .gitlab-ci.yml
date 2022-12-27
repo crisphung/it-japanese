@@ -56,17 +56,17 @@ docker-job:
     - docker push $IMAGE_NAME:$IMAGE_TAG
 
 deploy-job:
-
+  image: alpine
   stage: deploy
 
   before_script:
-    - chmod 400 $SSH_KEY
+    - chmod og= $SSH_KEY
+    - apk update && apk add openssh-client
   script:
     - echo "Deploying..."
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker login -u $DOCKER_USER -p DOCKER_PASSWORD"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker pull $IMAGE_NAME:$IMAGE_TAG"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker stop $CONTAINER_NAME || true"
-    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker rm -f $CONTAINER_NAME || true"
+    - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker container rm -f $CONTAINER_NAME || true"
     - ssh -o StrictHostKeyChecking=no -i $SSH_KEY $EC_USER@EC_IP "docker run -dp 80:8080 --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG"
     - echo "Deployed!"
 
