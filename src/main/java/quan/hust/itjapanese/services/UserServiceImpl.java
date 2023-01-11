@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,9 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.nullness.Opt;
 import quan.hust.itjapanese.config.jwt.JwtTokenProvider;
 import quan.hust.itjapanese.converter.BookConverter;
 import quan.hust.itjapanese.converter.UserConverter;
@@ -31,6 +35,7 @@ import quan.hust.itjapanese.dto.BookDto;
 import quan.hust.itjapanese.dto.UserDto;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
+import quan.hust.itjapanese.dto.request.UpdateProfileRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
 import quan.hust.itjapanese.dto.response.FavoriteResponse;
 import quan.hust.itjapanese.dto.response.ProfileResponse;
@@ -75,6 +80,7 @@ public class UserServiceImpl implements UserService
   private FavoriteBookRepository fbRepository;
 
   @Override
+  @Transactional
   public AuthResponse login(LoginRequest request)
   {
     AuthResponse response;
@@ -106,6 +112,7 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
+  @Transactional
   public AuthResponse signup(SignUpRequest request)
   {
     AuthResponse response = null;
@@ -162,6 +169,7 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
+  @Transactional
   public FavoriteResponse addToFavorite(Integer bookId)
   {
     Optional<User> userOpt = SecurityUtils.getCurrentUser();
@@ -199,6 +207,7 @@ public class UserServiceImpl implements UserService
   }
 
   @Override
+  @Transactional
   public ProfileResponse getProfile()
   {
     ProfileResponse response = null;
@@ -229,12 +238,43 @@ public class UserServiceImpl implements UserService
     return response;
   }
 
+  @Override
+  @Transactional
+  public ProfileResponse updateProfile(UpdateProfileRequest request)
+  {
+    ProfileResponse response = new ProfileResponse();
+    String image = request.getImageUrl();
+    String phone = request.getPhone();
+    Optional<User> currUser = SecurityUtils.getCurrentUser();
+    if(currUser.isPresent())
+    {
+        User user = currUser.get();
+        if(StringUtils.hasText(image))
+        {
+          user.setProfileImage(image);
+        }
+        if(StringUtils.hasText(phone))
+        {
+          user.setPhone(phone);
+        }
+
+        user = userRepository.save(user);
+
+        response.setUserInfo(userConverter.convertToDto(user));
+        response.setMessage("Update Success");
+        return response;
+    }
+    response.setMessage("Update failed!");
+    return response;
+  }
+
   private boolean checkUserExisted(String username) {
     Optional<User> userInfo = userRepository.findUserInfoByUsername(username);
     return userInfo.isPresent();
   }
 
   @Override
+  @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
   {
     Optional<User> userInfo = userRepository.findUserInfoByUsername(username);

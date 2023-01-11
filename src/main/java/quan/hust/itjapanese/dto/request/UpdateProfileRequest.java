@@ -10,17 +10,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest
+public class UpdateProfileRequest
 {
-  @JsonProperty("comment-id")
-  private Integer commentId;
+  @JsonProperty("phone")
+  private String phone;
 
-  @JsonProperty("book-id")
-  private Integer bookId;
+  @JsonProperty("image_url")
+  private String imageUrl;
 
-  @JsonProperty("content")
-  private String content;
-
-  @JsonProperty("star")
-  private Integer star;
+  @JsonProperty("email")
+  private String email;
 }

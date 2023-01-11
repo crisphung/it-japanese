@@ -1,17 +1,10 @@
-# Build environment
-FROM maven:alpine as build
-WORKDIR /app
-COPY pom.xml pom.xml
-ADD ./src src/
-
-#Package jar file
-RUN mvn package
-
-
 FROM openjdk:8-jdk-alpine
 
 WORKDIR /app
 
-COPY --from=build /app/target/*.jar /app/app.jar
+VOLUME /tmp
 
-ENTRYPOINT ["java","-jar", "/app/app.jar"]
+COPY ./target/itjapanese-0.0.1-SNAPSHOT.jar app.jar
+
+ENTRYPOINT ["java","-jar","./app.jar"]
+

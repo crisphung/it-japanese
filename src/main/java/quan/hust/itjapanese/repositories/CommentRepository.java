@@ -13,4 +13,5 @@ import quan.hust.itjapanese.domain.Comment;
 public interface CommentRepository extends JpaRepository<Comment, Integer>
 {
   List<Comment> findCommentByBookOrderByCreatedAtDesc(Book book);
+  List<Comment> findCommentByCreatedByAndAndBook(String createdBy, Book book);
 }

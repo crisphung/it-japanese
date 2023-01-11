@@ -15,6 +15,9 @@ public class CommentConverter implements EntityConverter<Comment, CommentDto>
       .content(entity.getContent())
       .createdAt(entity.getCreatedAt())
       .createdBy(entity.getCreatedBy())
+      .start(entity.getStar())
+      .like(entity.getLike())
+      .dislike(entity.getDislike())
       .Id(entity.getId())
       .build();
   }

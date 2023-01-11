@@ -16,6 +16,7 @@ import quan.hust.itjapanese.converter.BookConverter;
 import quan.hust.itjapanese.converter.CommentConverter;
 import quan.hust.itjapanese.domain.Book;
 import quan.hust.itjapanese.domain.BookRating;
+import quan.hust.itjapanese.domain.Comment;
 import quan.hust.itjapanese.domain.User;
 import quan.hust.itjapanese.domain.UserBookID;
 import quan.hust.itjapanese.dto.BookDto;
@@ -32,6 +33,7 @@ import quan.hust.itjapanese.exception.InvalidSortColumnException;
 import quan.hust.itjapanese.exception.InvalidSortOrderException;
 import quan.hust.itjapanese.repositories.BookRatingRepository;
 import quan.hust.itjapanese.repositories.BookRepository;
+import quan.hust.itjapanese.repositories.CommentRepository;
 import quan.hust.itjapanese.utils.CSVHelper;
 import quan.hust.itjapanese.utils.SecurityUtils;
 
@@ -43,6 +45,8 @@ public class BookServiceImpl implements BookService
   @Autowired
   private BookRepository bookRepository;
 
+  @Autowired
+  private CommentRepository commentRepository;
   @Autowired
   private BookRatingRepository brRepository;
 
@@ -196,21 +200,20 @@ public class BookServiceImpl implements BookService
   }
 
   @Override
+  @Transactional
   public Boolean isRated(Integer bookId)
   {
+    Optional<Book> bookOpt = bookRepository.findById(bookId);
+
+    Book book = bookOpt.orElse(null);
     Optional<User> userOpt = SecurityUtils.getCurrentUser();
     if (userOpt.isPresent())
     {
       User user = userOpt.get();
-      UserBookID ubId = UserBookID.builder()
-        .userId(user.getId())
-        .bookId(bookId)
-        .build();
 
+      List<Comment> comments = commentRepository.findCommentByCreatedByAndAndBook(user.getUsername(),book);
 
-      Optional<BookRating> bookRating = brRepository.findById(ubId);
-
-      return bookRating.isPresent();
+      return !comments.isEmpty();
     }
     return false;
   }

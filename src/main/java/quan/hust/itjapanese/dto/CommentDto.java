@@ -22,6 +22,15 @@ public class CommentDto
   @JsonProperty("content")
   private String content;
 
+  @JsonProperty("star")
+  private Integer start;
+
+  @JsonProperty("like")
+  private Integer like;
+
+  @JsonProperty("dislike")
+  private Integer dislike;
+
   @JsonProperty("created_at")
   private Timestamp createdAt;
 

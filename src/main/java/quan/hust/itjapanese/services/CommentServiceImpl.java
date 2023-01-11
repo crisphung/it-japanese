@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import quan.hust.itjapanese.converter.CommentConverter;
 import quan.hust.itjapanese.domain.Book;
+import quan.hust.itjapanese.domain.BookRating;
 import quan.hust.itjapanese.domain.Comment;
+import quan.hust.itjapanese.domain.User;
+import quan.hust.itjapanese.domain.UserBookID;
 import quan.hust.itjapanese.dto.CommentDto;
 import quan.hust.itjapanese.dto.request.CommentRequest;
 import quan.hust.itjapanese.dto.response.GetCommentResponse;
@@ -32,19 +35,31 @@ public class CommentServiceImpl implements CommentService
   @Override
   public ManipulateCommentResponse comment(CommentRequest request)
   {
-    String currentUser = SecurityUtils.getCurrentUsername().orElse("Anonymous");
-
-    Optional<Book> bookOpt = bookRepository.findById(request.getBookId());
+    Integer bookId = request.getBookId();
+    Integer star = request.getStar();
+    Optional<Book> bookOpt = bookRepository.findById(bookId);
     if (bookOpt.isPresent())
     {
       Book book = bookOpt.get();
+      // Increase rate times to 1
+      Integer rateTimes = book.getRateTimes() + 1;
+      book.setRateTimes(rateTimes);
+      Integer totalStar = book.getStar() + request.getStar();
+      book.setStar(totalStar);
+
+      book = bookRepository.save(book);
+
 
       Comment comment = Comment.builder()
         .content(request.getContent())
         .book(book)
+        .star(star)
+        .like(0)
+        .dislike(0)
         .build();
 
       comment = commentRepository.save(comment);
+
     }
     return ManipulateCommentResponse.builder()
       .message("Comment Success!").build();
@@ -95,5 +110,11 @@ public class CommentServiceImpl implements CommentService
     commentRepository.save(comment);
 
     return ManipulateCommentResponse.builder().message("Updated successful!").build();
+  }
+
+  @Override
+  public CommentDto getCommentDetail(Integer cmdId)
+  {
+    return commentConverter.convertToDto(commentRepository.findById(cmdId).get());
   }
 }

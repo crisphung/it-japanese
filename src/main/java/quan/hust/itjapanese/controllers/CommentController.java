@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import quan.hust.itjapanese.dto.CommentDto;
 import quan.hust.itjapanese.dto.request.CommentRequest;
 import quan.hust.itjapanese.dto.response.GetCommentResponse;
 import quan.hust.itjapanese.dto.response.ManipulateCommentResponse;
@@ -54,5 +55,11 @@ public class CommentController implements CommentOperations
   {
     return ResponseEntity.ok(commentService.getComments(bookId));
 
+  }
+
+  @Override
+  public ResponseEntity<CommentDto> getCommentDetail(Integer cmdId)
+  {
+    return ResponseEntity.ok(commentService.getCommentDetail(cmdId));
   }
 }
