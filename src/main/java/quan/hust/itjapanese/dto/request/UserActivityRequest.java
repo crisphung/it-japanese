@@ -10,17 +10,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest
+public class UserActivityRequest
 {
-  @JsonProperty("comment-id")
-  private Integer commentId;
+  @JsonProperty("id")
+  private Integer id;
 
-  @JsonProperty("book-id")
-  private Integer bookId;
+  @JsonProperty("type")
+  private String type;
 
   @JsonProperty("content")
   private String content;
-
-  @JsonProperty("star")
-  private Integer star;
 }

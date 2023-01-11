@@ -1,19 +1,21 @@
 package quan.hust.itjapanese.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -22,31 +24,22 @@ import org.hibernate.annotations.OnDeleteAction;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comment")
-public class Comment extends InitializationInfo
+public class UserActivity extends Auditable implements Serializable
 {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer Id;
 
-  @Column(name = "content")
+  @Column(name="type")
+  private String type;
+
+  @Column(name="content")
   private String content;
 
-  @Column(name="star")
-  private Integer star;
-
-  @Column(name="likes")
-  private Integer like;
-
-  @Column(name="dislike")
-  private Integer dislike;
-  @ManyToOne
+  @OneToOne(cascade = CascadeType.ALL)
   @OnDelete(action = OnDeleteAction.NO_ACTION)
-  @JoinColumn(name = "book_id",nullable = false)
-  @ToString.Exclude
-  private Book book;
-
-
-
+  @JoinColumn(name = "commend_id", referencedColumnName = "id")
+  private Comment comment;
 
 }

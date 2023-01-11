@@ -64,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
       .antMatchers("/api/user/login", "/api/user/signup","/swagger-ui/**").permitAll()
       .antMatchers(HttpMethod.GET,"/api/book","/api/book/compare").permitAll()
       .antMatchers(HttpMethod.GET,"/api/healthcheck").permitAll()
-      .antMatchers(HttpMethod.GET,"/api/comment").permitAll()
+      .antMatchers(HttpMethod.GET,"/api/comment","/api/comment/*").permitAll()
       .anyRequest().authenticated()
       .and()
       .logout()

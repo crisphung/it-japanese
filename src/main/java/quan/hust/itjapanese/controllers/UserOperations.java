@@ -17,8 +17,11 @@ import quan.hust.itjapanese.dto.UserDto;
 import quan.hust.itjapanese.dto.request.AddFavoriteRequest;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
+import quan.hust.itjapanese.dto.request.UpdateProfileRequest;
+import quan.hust.itjapanese.dto.request.UserActivityRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
 import quan.hust.itjapanese.dto.response.FavoriteResponse;
+import quan.hust.itjapanese.dto.response.ManipulateCommentResponse;
 import quan.hust.itjapanese.dto.response.ProfileResponse;
 
 @RequestMapping(UserOperations.SOURCE_API)
@@ -31,7 +34,12 @@ public interface UserOperations
   String LOGOUT = "/logout";
   String SIGNUP = "/signup";
 
+  String REACT ="/react-comment";
+
+  String LIKED ="/liked-comment";
   String FAVORITE_BOOK = "/favorite";
+
+  String UPDATE = "/update-profile";
 
   @PostMapping(LOGIN)
   ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request);
@@ -50,4 +58,18 @@ public interface UserOperations
 
   @GetMapping(value = "/profile")
   ResponseEntity<ProfileResponse> getProfile();
+
+  @PostMapping(value = REACT)
+  ResponseEntity<ManipulateCommentResponse> reactComment(
+    @RequestBody UserActivityRequest request
+  );
+
+  @GetMapping(value = LIKED)
+  ResponseEntity<String> likedComment (
+    @RequestParam(name = "cmtId") Integer cmtId
+    );
+
+  @PostMapping(UPDATE)
+  ResponseEntity<ProfileResponse> updateProfile(@RequestBody UpdateProfileRequest request);
+
 }

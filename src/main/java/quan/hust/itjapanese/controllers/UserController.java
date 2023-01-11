@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,9 +17,13 @@ import quan.hust.itjapanese.dto.UserDto;
 import quan.hust.itjapanese.dto.request.AddFavoriteRequest;
 import quan.hust.itjapanese.dto.request.LoginRequest;
 import quan.hust.itjapanese.dto.request.SignUpRequest;
+import quan.hust.itjapanese.dto.request.UpdateProfileRequest;
+import quan.hust.itjapanese.dto.request.UserActivityRequest;
 import quan.hust.itjapanese.dto.response.AuthResponse;
 import quan.hust.itjapanese.dto.response.FavoriteResponse;
+import quan.hust.itjapanese.dto.response.ManipulateCommentResponse;
 import quan.hust.itjapanese.dto.response.ProfileResponse;
+import quan.hust.itjapanese.services.UserActivityService;
 import quan.hust.itjapanese.services.UserService;
 
 @RestController
@@ -28,6 +33,8 @@ public class UserController implements UserOperations
   @Autowired
   private UserService userService;
 
+  @Autowired
+  private UserActivityService activityService;
 
   @Override
   public ResponseEntity<AuthResponse> login(LoginRequest request)
@@ -77,5 +84,28 @@ public class UserController implements UserOperations
   public ResponseEntity<ProfileResponse> getProfile()
   {
     return ResponseEntity.ok(userService.getProfile());
+  }
+
+  public ResponseEntity<ManipulateCommentResponse> reactComment(UserActivityRequest request)
+  {
+    ManipulateCommentResponse response = activityService.addActivity(request);
+
+    return ResponseEntity.ok(
+      ManipulateCommentResponse.builder()
+        .message("Success").build()
+    );
+  }
+
+  @Override
+  public ResponseEntity<String> likedComment(Integer cmtId)
+  {
+    return ResponseEntity.ok(activityService.checkHadActivity(cmtId));
+  }
+
+  @Override
+  public ResponseEntity<ProfileResponse> updateProfile(UpdateProfileRequest request)
+  {
+    ProfileResponse response = userService.updateProfile(request);
+    return ResponseEntity.ok(response);
   }
 }

@@ -18,10 +18,10 @@ import quan.hust.itjapanese.dto.UserDto;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ProfileResponse
 {
-  @JsonProperty("user-info")
+  @JsonProperty("user_info")
   private UserDto userInfo;
 
-  @JsonProperty("favorite-books")
+  @JsonProperty("favorite_books")
   private List<BookDto> favoriteBook;
 
   @JsonProperty("message")

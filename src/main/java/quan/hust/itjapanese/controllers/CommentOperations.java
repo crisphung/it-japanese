@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import io.swagger.v3.oas.annotations.Operation;
+import quan.hust.itjapanese.dto.CommentDto;
 import quan.hust.itjapanese.dto.request.CommentRequest;
 import quan.hust.itjapanese.dto.response.GetCommentResponse;
 import quan.hust.itjapanese.dto.response.ManipulateCommentResponse;
@@ -35,4 +36,8 @@ public interface CommentOperations
   @Operation(summary = "List all comment by bookIds")
   @GetMapping
   ResponseEntity<GetCommentResponse> getComments(@RequestParam(name = "bookId",required = true) Integer bookId);
+
+  @Operation(summary = "Get comment detail")
+  @GetMapping("/{cmdId}")
+  ResponseEntity<CommentDto> getCommentDetail(@PathVariable(name = "cmdId") Integer cmdId);
 }

@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -42,12 +43,16 @@ public class User
   @Column(name = "email")
   private String email;
 
+  @Column(name="phone")
+  private String phone;
+
   @Column(name = "username")
   private String username;
 
   @Column(name = "password")
   private String password;
 
+  @Lob
   @Column(name="profile_image")
   private String profileImage;
 }

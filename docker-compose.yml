@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   web:
-    image: crisphung/itss-be:${IMAGE_TAG}
+    image: crisphung/itss-be:v1
     container_name: itss-be
     ports:
       - "80:8080"

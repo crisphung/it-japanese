@@ -1,5 +1,7 @@
 package quan.hust.itjapanese.dto;
 
+import java.sql.Timestamp;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -12,18 +14,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDto
+public class ActivityDto
 {
-  @JsonProperty("name")
-  private String name;
+  @JsonProperty("id")
+  private Integer id;
 
-  @JsonProperty("email")
-  private String email;
+  @JsonProperty("type")
+  private String type;
 
-  @JsonProperty("profile_image")
-  private String profileImage;
+  @JsonProperty("comment")
+  private String comment;
 
-  @JsonProperty("phone")
-  private String phone;
-
+  @JsonProperty("created_at")
+  private Timestamp createdAt;
 }
